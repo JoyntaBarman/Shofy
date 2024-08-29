@@ -1,22 +1,38 @@
-'use client';
-import { logo } from '@/assets/Image';
-import Image from 'next/image';
-import Container from '../Container';
-import { PiUserCircleThin } from 'react-icons/pi';
-import { HiArrowsUpDown } from 'react-icons/hi2';
-import { MdFavoriteBorder } from 'react-icons/md';
-import { TbShoppingBagExclamation } from 'react-icons/tb';
-import Button from '../ui/Button';
-import Input from '../ui/Input';
-import { useState } from 'react';
-import Menu from './Menu';
-import { RxCross2 } from 'react-icons/rx';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Navlink } from '@/constants';
-import Link from 'next/link';
+"use client";
+import { logo } from "@/assets/Image";
+import Image from "next/image";
+import Container from "../Container";
+import { PiUserCircleThin } from "react-icons/pi";
+import { HiArrowsUpDown } from "react-icons/hi2";
+import { MdFavoriteBorder } from "react-icons/md";
+import { TbShoppingBagExclamation } from "react-icons/tb";
+import Button from "../ui/Button";
+import Input from "../ui/Input";
+import { useState } from "react";
+import { RxCross2 } from "react-icons/rx";
+import { motion, AnimatePresence } from "framer-motion";
+import { Navlink } from "@/constants";
+import Link from "next/link";
+import { MenuIcon } from "./MenuIcon";
+import { signIn, useSession } from "next-auth/react";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser, removeUser } from "@/redux/user/userSlice";
+import { StateType } from "../../../type";
 
 export default function MiddleHeader() {
   const [showMenu, setShowMenu] = useState(false);
+  const disaptch = useDispatch();
+
+  const {cart} = useSelector((state: StateType) => state?.cart);
+  const { data: session } = useSession();
+
+  useState(() => {
+    if (session?.user) {
+      disaptch(addUser(session?.user));
+    } else {
+      disaptch(removeUser(""));
+    }
+  }, []);
 
   return (
     <Container>
@@ -34,15 +50,38 @@ export default function MiddleHeader() {
         {/* Right side */}
         <div className="flex gap-8 items-center">
           {/* User */}
-          <Button href="/login" className="hover:text-black">
-            <div className="gap-1 items-center hidden lg:flex">
-              <PiUserCircleThin size={50} />
-              <div className="text-base font-medium hidden xl:flex flex-col justify-between">
-                <p className="text-nowrap">Hello, Guest</p>
-                <p className="text-nowrap">Login / Resister</p>
+          {session?.user ? (
+            <div className="hover:text-black">
+              <div className="gap-2 items-center hidden lg:flex">
+                <Image
+                  src={session?.user?.image!}
+                  alt="userImage"
+                  width={200}
+                  height={200}
+                  className="w-12 h-12 rounded-full"
+                />
+                <div className="text-base font-medium hidden xl:flex flex-col justify-between">
+                  <p className="text-nowrap">Hello, name</p>
+                  <Link href="/profile" className="text-nowrap hover:text-blue duration-300">
+                    View Profile
+                  </Link >
+                </div>
               </div>
             </div>
-          </Button>
+          ) : (
+            <div
+              onClick={() => signIn()}
+              className="hover:text-black cursor-pointer"
+            >
+              <div className="gap-1 items-center hidden lg:flex">
+                <PiUserCircleThin size={50} />
+                <div className="text-base font-medium hidden xl:flex flex-col justify-between">
+                  <p className="text-nowrap">Hello, Guest</p>
+                  <p className="text-nowrap">Login / Resister</p>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* icons */}
           <div className="flex gap-4 items-center">
@@ -70,7 +109,7 @@ export default function MiddleHeader() {
               <p className="relative">
                 <TbShoppingBagExclamation size={24} />
                 <span className="w-5 h-5 inline-flex bg-blue text-white rounded-full absolute -top-2 -right-2 items-center justify-center text-xs">
-                  0
+                  {cart?.length}
                 </span>
               </p>
             </Button>
@@ -79,9 +118,7 @@ export default function MiddleHeader() {
               onClick={() => setShowMenu(!showMenu)}
               className="lg:hidden w-7 h-6 flex flex-col justify-between group overflow-hidden cursor-pointer hover:"
             >
-              <span className="w-full h-[3px] bg-black hover:bg-black inline-flex transform translate-x-0 rounded-full group-hover:translate-x-2 duration-200"></span>
-              <span className="w-full h-[3px] bg-black hover:bg-black inline-flex transform translate-x-3 rounded-full group-hover:translate-x-1 duration-200"></span>
-              <span className="w-full h-[3px] bg-black hover:bg-black inline-flex transform translate-x-2 rounded-full group-hover:translate-x-3 duration-200"></span>
+              <MenuIcon />
             </div>
           </div>
         </div>

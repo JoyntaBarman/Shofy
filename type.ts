@@ -29,6 +29,12 @@ export interface productType {
   };
   images: string[];
   thumbnail: string;
+  quantity?:number
+}
+
+export interface StateType {
+  user?: { user: object|null,}
+  cart?:{ cart: productType[]}
 }
 
 // id: 28,
