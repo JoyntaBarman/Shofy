@@ -8,6 +8,7 @@ export interface productType {
   rating: number;
   stock: number;
   tags: string[];
+  brand: string;
   sku: string;
   weight: number;
   dimensions: {
