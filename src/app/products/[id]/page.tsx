@@ -44,7 +44,12 @@ const SingleProductPage = async ({ params }: Params) => {
           </div>
           <p className="text-green-700">{product?.stock} product available.</p>
           <AddToCardButton product={product} />
-          <Link href={'/checkout'} className="bg-blue text-white py-2 text-center font-bold hover:bg-blackbg duration-300">Buy Now</Link>
+          <Link
+            href={"/checkout"}
+            className="bg-blue text-white py-2 text-center font-bold hover:bg-blackbg duration-300"
+          >
+            Buy Now
+          </Link>
         </div>
       </div>
     </Container>

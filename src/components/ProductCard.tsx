@@ -67,10 +67,11 @@ const ProductCard = ({ product }: props) => {
               pathname: `products/${product.id}`,
               query: { id: product?.id },
             }}
-            className="font-bold text-xl leading-7 min-h-14 line-clamp-2 hover:text-blue duration-300"
+            className="font-bold text-xl leading-7  line-clamp-1 hover:text-blue duration-300"
           >
             {product?.title}
           </Link>
+          <p className="line-clamp-3 text-sm font-semibold text-gray-700">{product?.description}</p>
           <p className="font-bold text-blue">TK {product?.price}</p>
         </div>
       </div>

@@ -3,6 +3,8 @@ import { productType } from "../../../type";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { decreaseQuantity, increaseQuantity } from "@/redux/cart/cartSlice";
+import PriceFormate from "./PriceFormate";
+import Link from "next/link";
 
 interface props {
   item: productType;
@@ -20,13 +22,15 @@ const CartItem = ({ item }: props) => {
 
   return (
     <div className="p-4 flex gap-1 justify-between items-center bg-white rounded">
-      <Image
-        src={item?.images[0]}
-        alt={item?.title}
-        height={200}
-        width={200}
-        className="w-32 h-32 object-contain"
-      />
+      <Link href={{pathname: `products/${item?.id}`}}>
+        <Image
+          src={item?.images[0]}
+          alt={item?.title}
+          height={200}
+          width={200}
+          className="w-32 h-32 object-contain"
+        />
+      </Link>
       <div className="w-2/5">
         <h1 className="text-xl font-bold ">{item?.title}</h1>
         <p className="text-base mt-1 text-gray-500">
@@ -40,7 +44,7 @@ const CartItem = ({ item }: props) => {
         >
           -
         </button>
-        <p className="px-2 w-8">{ item?.quantity }</p>
+        <p className="px-2 w-8">{item?.quantity}</p>
         <button
           onClick={() => increase(item?.id)}
           className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 duration-300 text-xl"
@@ -48,7 +52,7 @@ const CartItem = ({ item }: props) => {
           +
         </button>
       </div>
-      <p className="w-16">${item?.price}</p>
+      <PriceFormate price={item?.price} />
     </div>
   );
 };

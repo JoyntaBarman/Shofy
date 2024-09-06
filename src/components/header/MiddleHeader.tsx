@@ -39,9 +39,9 @@ export default function MiddleHeader() {
       <div className="flex gap-4 items-center justify-between py-7">
         {/* Left side */}
         {/* <Button className='w-[140px]' href="/"> */}
-        <div>
+        <Link href={'/'}>
           <Image src={logo} width={140} alt="Shofy" />
-        </div>
+        </Link>
         {/* </Button> */}
         {/* middle  */}
         <div className="hidden lg:block border-2 border-blue w-[500px] ">

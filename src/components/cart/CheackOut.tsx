@@ -1,5 +1,6 @@
 import React from "react";
 import { productType } from "../../../type";
+import PriceFormate from "./PriceFormate";
 
 interface props {
   cart: productType[];
@@ -15,13 +16,13 @@ const CheackOut = ({ cart }: props) => {
       <h1 className="text-xl font-bold text">Checkout</h1>
 
       <p className="flex items-center justify-between">
-        Subtotal: <span>{total.toFixed(2)} $</span>
+        Subtotal: <PriceFormate price={total}></PriceFormate>
       </p>
       <p className="flex items-center justify-between">
-        Shipping: <span>{2} $</span>
+        Shipping: <PriceFormate price={2.00}></PriceFormate>
       </p>
       <p className="flex items-center justify-between">
-        Total: <span>{(total + 2).toFixed(2)} $</span>
+        Total: <PriceFormate price={total + 2}></PriceFormate>
       </p>
     </div>
   );
